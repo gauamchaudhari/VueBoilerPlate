@@ -1,0 +1,56 @@
+body {
+    height: 100vh;
+  }
+  .text-color {
+      color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
+  }
+  .mt-1 {
+    margin-top: 0.25rem; /* Margin-top for spacing below error messages */
+  }
+  
+  .form-group {
+    margin-bottom: 1rem; /* Space between form groups */
+  }
+  .card-body {
+    padding: 2rem; /* Increase padding for more space */
+  }
+  
+  .login-page {
+    background-color: #f4f6f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .login-box {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .login-logo a {
+    font-size: 2.1rem;
+    font-weight: 300;
+  }
+  
+  .login-card-body {
+    padding: 20px;
+  }
+  
+  .icheck-primary {
+    display: flex;
+    align-items: center;
+  }
+
+  .input-group.flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .error-message {
+    display: block; 
+    white-space: normal;
+    margin-top: 5px;
+    font-size: 0.875rem;
+  }

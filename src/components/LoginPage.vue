@@ -4,113 +4,85 @@
       <div class="login-logo text-color">
         <a href="#"><b>{{ $logoName }}</b></a>
       </div>
-      <!-- /.login-logo -->
       <div class="card">
         <div class="card-body login-card-body">
           <p class="login-box-msg">Sign in to start your session</p>
 
-          <form @submit.prevent="handleLogin">
+          <!-- VeeValidate Form -->
+          <VForm :validation-schema="validationSchema" @submit="handleLogin">
+            <!-- Email Field -->
             <div class="input-group mb-3">
-              <input
+              <Field
+                name="email"
+                as="input"
                 type="email"
                 class="form-control"
                 placeholder="Email"
-                v-model="email"
-                required
               />
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <span class="fas fa-envelope"></span>
-                </div>
-              </div>
+              <ErrorMessage name="email" class="text-danger mt-1 error-message" />
             </div>
+
+            <!-- Password Field -->
             <div class="input-group mb-3">
-              <input
+              <Field
+                name="password"
                 type="password"
                 class="form-control"
                 placeholder="Password"
-                v-model="password"
-                required
               />
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <span class="fas fa-lock"></span>
-                </div>
-              </div>
+              <ErrorMessage name="password" class="text-danger mt-1" />
             </div>
+
+            <!-- Submit Button -->
             <div class="row">
-              <div class="col-8">
-                <div class="icheck-primary">
-                  <input type="checkbox" id="remember" />
-                  <label for="remember"> Remember Me </label>
-                </div>
-              </div>
-              <!-- /.col -->
-              <div class="col-4">
+              <div class="col-4 offset-8">
                 <button type="submit" class="btn btn-primary btn-block">Sign In</button>
               </div>
-              <!-- /.col -->
             </div>
-          </form>
+          </VForm>
 
           <p class="mb-1">
             <a href="#">I forgot my password</a>
           </p>
           <p class="mb-0">
-            <router-link to="/register" class="text-center"
-              >Register a new membership</router-link
-            >
+            <router-link to="/register" class="text-center">Register a new membership</router-link>
           </p>
         </div>
-        <!-- /.login-card-body -->
       </div>
     </div>
-    <!-- /.login-box -->
   </div>
 </template>
-
 <script setup>
-import { ref } from "vue";
+import "@/assets/css/login.css";
+import { Field, Form as VForm, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
+import AuthService from '@/services/authService';
+import { useRouter } from 'vue-router';
 
-const email = ref("");
-const password = ref("");
+const router = useRouter();
 
-const handleLogin = () => {
-  // Add login logic here, such as authentication with an API
-  console.log("Email:", email.value, "Password:", password.value);
+// Define the Yup schema
+const validationSchema = yup.object({
+  email: yup.string().email("Invalid email address").required("Email is required"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
+});
+
+// Handle form submission
+const handleLogin = async (values) => {
+  try {
+    const response = await AuthService.login(values.email, values.password);    
+    if (response.token) {
+      localStorage.setItem('authToken', response.token);
+      localStorage.setItem('userEmail', values.email);
+      router.push("/dashboard");
+    } else {
+      console.error("Login failed:", response.message);
+    }
+  } catch (error) {
+    console.error("API Error:", error);
+  }
 };
 </script>
-
-<style scoped>
-body {
-  height: 100vh;
-}
-.text-color {
-    color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
-}
-.login-page {
-  background-color: #f4f6f9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-.login-box {
-  width: 360px;
-}
-
-.login-logo a {
-  font-size: 2.1rem;
-  font-weight: 300;
-}
-
-.login-card-body {
-  padding: 20px;
-}
-
-.icheck-primary {
-  display: flex;
-  align-items: center;
-}
-</style>

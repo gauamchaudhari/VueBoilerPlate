@@ -1,0 +1,26 @@
+.text-danger {
+    color: #dc3545; /* Bootstrap text-danger color */
+  }
+  
+  .mt-1 {
+    margin-top: 0.25rem; /* Margin-top for spacing below error messages */
+  }
+  
+  .form-group {
+    margin-bottom: 1rem; /* Space between form groups */
+  }
+  
+  .register-box {
+    width: 100%;
+    max-width: 600px; /* Set the maximum width */
+    margin: auto;
+  }
+  
+  .card-body {
+    padding: 2rem; /* Increase padding for more space */
+  }
+  
+  .btn-lg {
+    font-size: 1.25rem; /* Larger button text */
+    padding: 0.75rem 1.25rem; /* Larger button padding */
+  }

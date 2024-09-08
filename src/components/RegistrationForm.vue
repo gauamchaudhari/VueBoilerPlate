@@ -3,7 +3,9 @@
     <div class="register-box">
       <div class="card card-outline card-primary">
         <div class="card-header text-center text-success">
-          <a href="#" class="h1"><b>{{ $logoName }}</b></a>
+          <a href="#" class="h1"
+            ><b>{{ $logoName }}</b></a
+          >
         </div>
         <div class="card-body">
           <p class="login-box-msg">Register a new membership</p>
@@ -132,12 +134,16 @@
 </template>
 
 <script setup>
-import { 
-    Field, 
-    Form as VForm, 
-    ErrorMessage 
-  } from "vee-validate";
-  import * as yup from "yup";
+
+import { Field, Form as VForm, ErrorMessage } from "vee-validate";
+import AuthService from '@/services/authService';
+import * as yup from "yup";
+import { useToast } from "vue-toastification";
+import { useRouter } from 'vue-router';
+import "@/assets/css/registation.css";
+
+const router = useRouter();
+const toast = useToast();
 
 // Define your form validation schema
 const validationSchema = yup.object({
@@ -158,37 +164,18 @@ const validationSchema = yup.object({
 });
 
 // Form submission handler
-const handleSubmit = (values) => {
-  console.log("Form submitted successfully", values);
-  // Add your form submission logic here
+const handleSubmit = async (values) => {
+  try {
+    const response = await AuthService.register(values);
+    console.log("Form submitted successfully:", response.data);
+    toast.success("Registration successful!"); // Show success toast
+    router.push('/');
+  } catch (error) {
+    console.error(
+      "Error submitting form:",
+      error.response ? error.response.data : error.message
+    );
+    toast.error("Registration failed. Please try again.");
+  }
 };
 </script>
-
-<style scoped>
-.text-danger {
-  color: #dc3545; /* Bootstrap text-danger color */
-}
-
-.mt-1 {
-  margin-top: 0.25rem; /* Margin-top for spacing below error messages */
-}
-
-.form-group {
-  margin-bottom: 1rem; /* Space between form groups */
-}
-
-.register-box {
-  width: 100%;
-  max-width: 600px; /* Set the maximum width */
-  margin: auto;
-}
-
-.card-body {
-  padding: 2rem; /* Increase padding for more space */
-}
-
-.btn-lg {
-  font-size: 1.25rem; /* Larger button text */
-  padding: 0.75rem 1.25rem; /* Larger button padding */
-}
-</style>
