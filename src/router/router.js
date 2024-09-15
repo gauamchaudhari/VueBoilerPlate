@@ -5,7 +5,7 @@ import UserDashboard from '@/views/UserDashboard.vue';
 import DashboardLayout from '@/components/layout/DashboardLayout.vue'
 import userList from '@/components/users/UserList.vue'
 import UserCreate from '@/components/users/UserCreate.vue';
-
+import UserEdit from '@/components/users/UserEdit.vue';
 const routes = [
   {
     path: '/',
@@ -28,12 +28,19 @@ const routes = [
       },
       {
         path: '/users',
+        name: 'UserList',
         component: userList
       },
       {
         path: '/user/create',
         name: 'UserCreate',
         component: UserCreate
+      },
+      {
+        path:'/user/:id',
+        name: 'UserEdit',
+        component: UserEdit,
+        props: true
       },
     ]
   },
@@ -48,7 +55,7 @@ const router = createRouter({
 
 // Navigation guard to check authentication
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/', '/login'];
+  const publicPages = ['/', '/login','/register'];
   const authRequired = !publicPages.includes(to.path);
   const token = localStorage.getItem('authToken');
   if (authRequired && !token) {

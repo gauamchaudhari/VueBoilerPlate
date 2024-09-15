@@ -1,19 +1,10 @@
 <template>
   <div class="content-wrapper" style="min-height: 140px">
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="text-center">
-            <h1>Users</h1>
-          </div>
-        </div>
-      </div>
-    </section>
     <section class="content">
       <div class="container-fluid">
         <div class="card card-outline card-primary">
-          <div class="card-header text-center text-success">
-            <a href="#" class="h1"><b>Create User</b></a>
+          <div class="card-header text-center text-success fw-bold">
+            <i class="fa-solid fa-users-cog"></i>&nbsp; Create User
           </div>
           <div class="card-body">
             <VForm @submit="handleSubmit" :validation-schema="validationSchema">
@@ -134,13 +125,20 @@
                   </div>
                 </div>
                 <div class="row">
-                <div class="col-12 text-center">
-                  <button type="submit" class="btn btn-primary btn-lg">Create</button>&nbsp;
-                  <button type="button" class="btn btn-danger btn-lg" @click="closeButton">Close</button>
+                  <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Create</button
+                    >&nbsp;
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-lg"
+                      @click="closeButton"
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
-              </div>        
-            </VForm>           
+            </VForm>
           </div>
         </div>
       </div>
@@ -154,7 +152,6 @@ import AuthService from "@/services/authService";
 import * as yup from "yup";
 import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router";
-
 
 const router = useRouter();
 const toast = useToast();
@@ -183,16 +180,18 @@ const handleSubmit = async (values) => {
     toast.success("The user created successful!");
     router.push("/users");
   } catch (error) {
+    const err = error.response ? error.response.data.errors[0].message : error.message;
     console.error(
       "Error submitting form:",
       error.response ? error.response.data : error.message
     );
-    toast.error("Registration failed. Please try again.");
+
+    toast.error(err);
   }
 };
 
 const closeButton = async () => {
-    router.push("/users");
+  router.push("/users");
 };
 </script>
 

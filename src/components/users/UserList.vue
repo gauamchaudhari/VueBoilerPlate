@@ -1,9 +1,7 @@
 <template>
   <div class="content-wrapper" style="min-height: 140px">
     <section class="content-header">
-      <div class="container-fluid">
-       
-      </div>
+      <div class="container-fluid"></div>
     </section>
     <section class="content">
       <div class="container-fluid">
@@ -11,7 +9,9 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><i class="fa-solid fa-user"></i> Users Management</h3>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-user"></i> Users Management
+                </h3>
                 <div class="d-flex justify-content-end">
                   <button class="btn btn-primary" @click="navigateToCreate">
                     <i class="fa fa-plus"></i> Create!
@@ -69,87 +69,135 @@
   </div>
 </template>
 
-<script>
-import $ from "jquery";
-import "datatables.net";
-import AuthService from "@/services/authService";
+<script setup>
+import { onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
+import { showAlert as showSweetAlert } from "@/plugins/sweetalert2-config";
+import AuthService from "@/services/authService";
+import $ from "jquery";
+import "datatables.net";
 
 const toast = useToast();
-export default {
-  name: "UserList",
+const router = useRouter();
+const showConfirmationDialog = async (userId) => {
+    console.log("showConfirmationDialog called with userId:", userId);
+    try {
+        const result = await showSweetAlert({
+            title: 'Are you sure?',
+            text: "You won't be able to delete this!",
+            icon: 'warning', // Ensure this is a valid icon
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+        });
 
-  mounted() {
-    this.fetchUsers();
-  },
-  beforeUnmount() {
-    // Ensure the DataTable is destroyed before the component is unmounted
+        console.log("SweetAlert result:", result);
+
+        if (result.value) {
+            console.log("User confirmed deletion");
+            deleteUser(userId);
+        }
+    } catch (error) {
+        toast.error("Error showing confirmation dialog.");
+    }
+};
+
+const deleteUser = async (userId) => {
+  try {
+    await AuthService.deleteUser(userId); // Make sure you have a method to handle deletion
+    toast.success("User deleted successfully.");
+    fetchUsers(); // Refresh the list
+  } catch (error) {
+    toast.error("Error deleting user.");
+  }
+};
+
+const fetchUsers = async () => {
+  try {
+    const response = await AuthService.users();
+    const data = await response.data;
+    // Ensure the DataTable is destroyed before initializing a new one
     if ($.fn.dataTable.isDataTable("#usersTable")) {
       $("#usersTable").DataTable().clear().destroy();
+      $("#usersTable").empty();
     }
-  },
-  setup() {
-    const router = useRouter();
+    initDataTable(data);
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
 
-    const navigateToCreate = () => {
-      router.push({ name: "UserCreate" });
-    };
+const initDataTable = (data) => {
+  $(document).ready(function () {
+    const table = $("#usersTable").DataTable({
+      data: data,
+      order: [[0, "desc"]],
+      columns: [
+        { data: "id" },
+        { data: "first_name" },
+        { data: "last_name" },
+        { data: "email" },
+        { data: "phone" },
+        { data: "address" },
+        { data: "gender" },
+        {
+          data: null,
+          defaultContent:
+            '<div class="icon-container"><i class="fa-solid fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash icon-delete"></i></div>',
+          orderable: true,
+        },
+      ],
+      destroy: true,
+    });
 
-    return {
-      navigateToCreate,
-    };
-  },
-  data() {
-    return {
-      modalTitle: "",
-      modalFields: [],
-      isModalOpen: false,
-    };
-  },
-  methods: {
-    async fetchUsers() {
-      try {
-        const response = await AuthService.users();
-        const data = await response.data;
-
-        // Ensure the DataTable is destroyed before initializing a new one
-        if ($.fn.dataTable.isDataTable("#usersTable")) {
-          $("#usersTable").DataTable().clear().destroy();
-          // Manually remove the added DataTable wrappers
-          $("#usersTable").empty();
-        }
-
-        this.initDataTable(data);
-      } catch (error) {
-        toast.error(error.message);
+    // Handle edit button click
+    $("#usersTable tbody").on("click", ".icon-edit", (event) => {
+      const rowData = table.row($(event.currentTarget).parents("tr")).data();
+      if (rowData) {
+        editUser(rowData.id); // Call the method in the Vue instance
+      } else {
+        toast.error("No row data found for edit action.");
       }
-    },
-    initDataTable(data) {
-      $(document).ready(function () {
-        $("#usersTable").DataTable({
-          data: data,
-          order: [[0, "desc"]],
-          columns: [
-            { data: "id" },
-            { data: "first_name" },
-            { data: "last_name" },
-            { data: "email" },
-            { data: "phone" },
-            { data: "address" },
-            { data: "gender" },
-            {
-              data: null,
-              defaultContent:
-                '<div class="icon-container"><i class="fa-solid fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash icon-delete"></i></div>',
-              orderable: true,
-            },
-          ],
-          destroy: true, // Ensure the previous instance is destroyed
-        });
-      });
-    },
-  },
+    });
+    //Handle delete button click
+    $("#usersTable tbody").on("click", ".icon-delete", (event) => {
+      const rowData = table.row($(event.currentTarget).parents("tr")).data();
+      if (rowData) {
+        showConfirmationDialog(rowData.id);
+      } else {
+        toast.error("No row data found for delete action.");
+      }
+    });
+  });
+};
+
+const editUser = (userId) => {
+  try {
+    // Navigate to the edit page and pass the user ID as a param
+    router.push({
+      name: "UserEdit",
+      params: { id: userId },
+    });
+  } catch (error) {
+    toast.error("Error fetching user details.");
+  }
+};
+
+onMounted(() => {
+  fetchUsers();
+});
+
+onBeforeUnmount(() => {
+  if ($.fn.dataTable.isDataTable("#usersTable")) {
+    $("#usersTable").DataTable().clear().destroy();
+  }
+});
+
+const navigateToCreate = () => {
+  router.push({ name: "UserCreate" });
 };
 </script>
 
