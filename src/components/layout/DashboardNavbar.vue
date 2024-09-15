@@ -54,7 +54,7 @@
               </a>
             </li>
             <li>
-              <a class="dropdown-item menu-item" href="#">
+              <a class="dropdown-item menu-item" href="#" @click="logout">
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
               </a>
             </li>
@@ -65,22 +65,18 @@
   </nav>
 </template>
 
-<script>
-import eventBus from "@/plugins/eventBus";
+<script setup>
+import { logoutMixin } from "@/mixins/logoutMixin";
 
-export default {
-  name: "DashboardNavbar",
-  methods: {
-    toggleSidebar() {
-      eventBus.emit("toggle-sidebar");
-    },
-  },
+const { logout } = logoutMixin.setup();
+const toggleSidebar = () => {
+  this.$emit("toggle-sidebar");
 };
 </script>
 
 <style scoped>
 .nav-link {
-  margin-left: 270px; /* Adjusted margin to fit layout */
+  margin-left: 270px;
 }
 .bg-custom {
   background-color: #11bee1;
