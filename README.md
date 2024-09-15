@@ -1,4 +1,5 @@
-https://miro.medium.com/v2/resize:fit:4800/format:webp/0*e3woyA5gpeIee0_6 # vue3 Admin Panel with NodeJS
+![Screenshot from 2024-09-15 16-17-11](https://github.com/user-attachments/assets/f1f7db3e-f488-4f80-8d62-77740e745429)
+ # vue3 Admin Panel with NodeJS
 
 ## ScreenShots
 
