@@ -1,51 +1,94 @@
 <template>
-  <nav class="main-header navbar navbar-expand navbar-dark bg-dark">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button">
-          <i class="fas fa-bars"></i>
-        </a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <router-link to="/users" class="nav-link">All Users</router-link>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">User: {{ userEmail }}</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link" @click.prevent="handleLogout">Logout</a>
-      </li>
-    </ul>
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Add navbar items here -->
-    </ul>
+  <nav class="navbar navbar-expand-lg navbar-light bg-custom">
+    <button class="navbar-toggler d-lg-none" type="button" @click="toggleSidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link active text-white fw-bold"
+            aria-current="page"
+            href="#"
+            @click="toggleSidebar"
+          >
+            <i class="fas fa-bars"></i> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold" href="#">
+            <i class="fa-solid fa-user"></i> All Users
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold" href="#">Pricing</a>
+        </li>
+      </ul>
+
+      <!-- Profile Dropdown -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-white fw-bold"
+            href="#"
+            id="navbarDropdownMenuAvatar"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="fa-solid fa-user-tie"></i> Profile
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarDropdownMenuAvatar"
+          >
+            <li>
+              <a class="dropdown-item menu-item" href="#">
+                <i class="fa-solid fa-user"></i> My Profile
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item menu-item" href="#">
+                <i class="fa-solid fa-gear"></i> Settings
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item menu-item" href="#">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
+
 <script>
+import eventBus from "@/plugins/eventBus";
+
 export default {
-  data() {
-    return {
-      userEmail: "",
-    };
-  },
-  created() {
-    // Retrieve user email from localStorage
-    this.userEmail = localStorage.getItem("userEmail") || "Guest";
-  },
+  name: "DashboardNavbar",
   methods: {
-    handleLogout() {
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("userEmail");
-      this.$router.push("/");
+    toggleSidebar() {
+      eventBus.emit("toggle-sidebar");
     },
   },
 };
 </script>
+
+<style scoped>
+.nav-link {
+  margin-left: 270px; /* Adjusted margin to fit layout */
+}
+.bg-custom {
+  background-color: #11bee1;
+}
+.menu-item:hover {
+  background-color: #248be5;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+</style>

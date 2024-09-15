@@ -1,26 +1,219 @@
 <template>
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-      <span class="brand-text font-weight-light">Your App Name</span>
-    </a>
-    <!-- Sidebar -->
-    <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false" data-widget="treeview">
-          <li class="nav-item menu-open">
-            <router-link to="/dashboard" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Dashboard</p>
-            </router-link>
-          </li>
-          
-          <!-- Add more sidebar items here -->
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+  <div :class="['bg-custom text-white vh-100', { 'd-none': !isVisible, 'collapsed': isCollapsed }]">
+    <div class="sidebar-content p-3">
+      <h4>
+        <i class="fa-solid fa-building-columns"></i>&nbsp;
+        <span v-if="!isCollapsed">Vue3 Admin</span>
+      </h4>
+      <hr />
+
+      <!-- General Section -->
+      <h6 class="text-uppercase text-white fw-bold">General</h6>
+      <ul class="nav flex-column mb-3">
+        <li class="nav-item">
+          <router-link
+            class="nav-link text-white fw-bold menu-item"
+            to="/dashboard"
+            exact-active-class="active"
+          >
+            <i class="fa-solid fa-gauge"></i>&nbsp;&nbsp;
+            <span v-if="!isCollapsed">Dashboard</span>
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold menu-item" href="#">
+            <i class="fa-solid fa-gear"></i>&nbsp;&nbsp;
+            <span v-if="!isCollapsed">Settings</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- System Section -->
+      <h6 class="text-uppercase text-white fw-bold">System</h6>
+      <ul class="nav flex-column">
+        <!-- Dropdown for Access with border when active -->
+        <li class="nav-item">
+          <a
+            class="nav-link text-white d-flex justify-content-between fw-bold menu-item"
+            data-bs-toggle="collapse"
+            href="#accessMenu"
+            role="button"
+            aria-expanded="false"
+            aria-controls="accessMenu"
+            :class="{ 'access-active': isAccessActive }"
+            @click="toggleAccessActive"
+          >
+            <span>
+              <i class="fa-solid fa-user-shield"></i>&nbsp;&nbsp;
+              <span v-if="!isCollapsed">Access</span>
+            </span>
+            <i class="fa-solid fa-caret-down"></i>
+          </a>
+          <!-- Collapsible submenu -->
+          <div class="collapse" id="accessMenu">
+            <ul class="nav flex-column ms-3">
+              <li class="nav-item">
+                <router-link
+                  class="nav-link text-white fw-bold menu-item"
+                  to="/users"
+                  exact-active-class="active"
+                >
+                  <i class="fa-solid fa-users-cog"></i>&nbsp;&nbsp;
+                  <span v-if="!isCollapsed">Users</span>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  class="nav-link text-white fw-bold menu-item"
+                  to="/users"
+                  exact-active-class="active"
+                >
+                <i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
+                  <span v-if="!isCollapsed">Roles</span>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  class="nav-link text-white fw-bold menu-item"
+                  to="/users"
+                  exact-active-class="active"
+                >
+                <i class="fa-brands fa-product-hunt"></i>&nbsp;&nbsp;
+                  <span v-if="!isCollapsed">Permissions</span>
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold menu-item" href="#">
+            <i class="fa-solid fa-file"></i>&nbsp;&nbsp;
+            <span v-if="!isCollapsed">Pages Management</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold menu-item" href="#">
+            <i class="fa-solid fa-circle-question"></i>&nbsp;&nbsp;
+            <span v-if="!isCollapsed">Faq Management</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold menu-item" href="#">
+            <i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;
+            <span v-if="!isCollapsed">Email Templates</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold menu-item" href="#">
+            <i class="fa-solid fa-blog"></i>&nbsp;&nbsp;
+            <span v-if="!isCollapsed">Blog Management</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold menu-item" href="#">
+            <i class="fa-solid fa-bars"></i>&nbsp;&nbsp;
+            <span v-if="!isCollapsed">Log Viewer</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold menu-item" href="#">
+            <i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;
+            <span v-if="!isCollapsed">Logout</span>
+          </a>
+        </li>
+      </ul>
     </div>
-    <!-- /.sidebar -->
-  </aside>
+  </div>
 </template>
+
+<script>
+import eventBus from '@/plugins/eventBus';
+
+export default {
+  name: "DashboardSidebar",
+  data() {
+    return {
+      isAccessActive: false, // To track if Access menu is active
+      isCollapsed: false, // To track if sidebar is collapsed
+    };
+  },
+  props: {
+    isVisible: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  methods: {
+    toggleAccessActive() {
+      this.isAccessActive = !this.isAccessActive; // Toggle active state for Access
+    },
+    toggleSidebar() {
+      this.isCollapsed = !this.isCollapsed; // Toggle collapse state
+    },
+  },
+  mounted() {
+    eventBus.on('toggle-sidebar', this.toggleSidebar);
+  },
+  beforeUnmount() {
+    eventBus.off('toggle-sidebar', this.toggleSidebar);
+  },
+};
+</script>
+
+<style scoped>
+/* Dark blue background for sidebar */
+.bg-custom {
+  background-color: #11bee1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.d-none {
+  display: none;
+}
+
+/* Sidebar collapsed style */
+.collapsed {
+  width: 80px; /* Adjust width for collapsed state */
+}
+
+/* Active link style */
+.active {
+  background-color: #248be5f9;
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* Section headings style */
+h6 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Style for collapsed submenus */
+.collapse .nav-link {
+  padding-left: 1.5rem;
+}
+
+/* Add border and highlight to Access when active */
+.access-active {
+  border: 1px solid #11bee1;
+  border-radius: 3px;
+  background-color: #c2c7cbf9;
+}
+
+/* Hover effect for menu items */
+.menu-item:hover {
+  background-color: #248be5;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+</style>
