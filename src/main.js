@@ -27,7 +27,7 @@ app.use(router);
 app.use(Toast);
 
 // Set global properties
-app.config.globalProperties.$logoName = 'Zopa Bank';
+app.config.globalProperties.$logoName = 'Vue3 Admin Panel';
 
 // Mount the Vue app
 app.mount('#app');
