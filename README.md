@@ -3,7 +3,10 @@
 ## ScreenShots
 
 ## Login 
-![Screenshot from 2024-09-15 16-10-21](https://github.com/user-attachments/assets/c75d84a8-6b7f-4b15-8a59-bd21a28efa2e)
+![Screenshot from 2024-09-15 16-11-42](https://github.com/user-attachments/assets/aac2c6f3-fe55-4ec0-adea-0f8be299ef6f)
+
+## Registration
+![Screenshot from 2024-09-15 16-13-19](https://github.com/user-attachments/assets/fb2330fa-e668-4876-93c3-f4d1d1b0334e)
 
 
 ## Dashboard
