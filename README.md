@@ -1,4 +1,4 @@
-# vue-first-app
+# vue3 Admin Panel with NodeJS
 
 ## ScreenShots
 
