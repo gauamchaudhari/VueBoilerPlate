@@ -11,7 +11,7 @@
 
 
 ## Dashboard
-![Screenshot from 2024-09-15 16-04-23](https://github.com/user-attachments/assets/db0cadc3-620b-4e51-90db-353904e66b07)
+![Screenshot from 2024-09-15 16-21-34](https://github.com/user-attachments/assets/844e660d-d4cd-409b-8fa6-62f4100e25ee)
 
 
 ## Project setup
