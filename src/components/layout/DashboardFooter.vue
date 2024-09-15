@@ -1,15 +1,27 @@
-<!-- src/components/layout/DashboardFooter.vue -->
 <template>
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block"><b>Version</b> 1.0.0</div>
-    <strong>© 2024 Your Company.</strong>
+  <footer class="bg-light text-center py-3 fixed-bottom">
+    <p class="mb-0">© 2024 Zopa Bank. All rights reserved.</p>
   </footer>
 </template>
 
-<script setup>
-// No additional script needed for this example
+<script>
+export default {
+  name: "DashboardFooter",
+};
 </script>
 
 <style scoped>
-/* Add custom styles here if needed */
+/* Ensure the footer is fixed at the bottom */
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it stays on top of other content */
+}
+
+/* Optional: Add padding to the body to avoid overlap */
+body {
+  padding-bottom: 3rem; /* Adjust based on footer height */
+}
 </style>

@@ -1,27 +1,44 @@
-<!-- src/components/layout/DashboardLayout.vue -->
 <template>
-  <div class="wrapper">
-    <DashboardNavbar />
-    <DashboardSidebar />
-    <div class="content-wrapper">
-      <router-view />
+  <div>
+    <DashboardNavbar @toggle-sidebar="toggleSidebar" />
+    <div class="d-flex">
+      <DashboardSidebar :isVisible="isSidebarVisible" />
+      <div id="main-content" class="flex-grow-1 p-3">
+        <router-view />
+      </div>
     </div>
     <DashboardFooter />
   </div>
 </template>
 
-<script setup>
-import DashboardNavbar from '@/components/layout/DashboardNavbar.vue'
-import DashboardSidebar from '@/components/layout/DashboardSidebar.vue'
-import DashboardFooter from '@/components/layout/DashboardFooter.vue'
-import { onMounted } from 'vue';
-onMounted(() => {
-  // Initialize AdminLTE JS functionality
-  window.$(document).Toasts = window.$.Toasts;
-});
+<script>
+import DashboardNavbar from "./DashboardNavbar.vue";
+import DashboardSidebar from "./DashboardSidebar.vue";
+import DashboardFooter from "./DashboardFooter.vue";
+
+export default {
+  name: "DashboardLayout",
+  components: {
+    DashboardNavbar,
+    DashboardSidebar,
+    DashboardFooter,
+  },
+  data() {
+    return {
+      isSidebarVisible: true,
+    };
+  },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarVisible = !this.isSidebarVisible;
+    },
+  },
+};
 </script>
 
 <style scoped>
-/* Add any custom styles here */
+#main-content {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
 </style>
-
