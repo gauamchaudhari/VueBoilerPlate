@@ -5,5 +5,6 @@ class AppConstants {
     static USER_GET = 'http://localhost:3001/api/user';
     static USER_UPDATE = 'http://localhost:3001/api/users';
     static USER_DELETE = 'http://localhost:3001/api/users';
+    static ROLES_LIST = 'http://localhost:3001/api/roles';
   }
   export default AppConstants;

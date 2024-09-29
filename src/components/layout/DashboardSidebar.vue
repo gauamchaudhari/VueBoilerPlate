@@ -65,7 +65,7 @@
               <li class="nav-item">
                 <router-link
                   class="nav-link text-white fw-bold menu-item"
-                  to="/users"
+                  to="/roles"
                   exact-active-class="active"
                 >
                 <i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
@@ -75,7 +75,7 @@
               <li class="nav-item">
                 <router-link
                   class="nav-link text-white fw-bold menu-item"
-                  to="/users"
+                  to="/permissions"
                   exact-active-class="active"
                 >
                 <i class="fa-brands fa-product-hunt"></i>&nbsp;&nbsp;

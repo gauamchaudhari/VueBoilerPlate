@@ -55,6 +55,16 @@ class AuthService {
   }
 
 
+  async roles() {
+    const token = localStorage.getItem('authToken');
+    const response = await axios.get(AppConstants.ROLES_LIST, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  }
+
 }
 
 export default new AuthService();

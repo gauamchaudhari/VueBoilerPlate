@@ -6,6 +6,10 @@ import DashboardLayout from '@/components/layout/DashboardLayout.vue'
 import userList from '@/components/users/UserList.vue'
 import UserCreate from '@/components/users/UserCreate.vue';
 import UserEdit from '@/components/users/UserEdit.vue';
+
+import RolesList from '@/components/roles/RolesList.vue';
+import PermissionsList from '@/components/permissions/PermissionsList.vue';
+
 const routes = [
   {
     path: '/',
@@ -42,6 +46,16 @@ const routes = [
         component: UserEdit,
         props: true
       },
+      {
+        path:'/roles',
+        name: 'RolesList',
+        component: RolesList
+      },
+      {
+        path: '/permissions',
+        name: 'PermissionsList',
+        component: PermissionsList
+      }
     ]
   },
 
