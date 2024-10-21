@@ -65,6 +65,48 @@ class AuthService {
     return response.data;
   }
 
+  async getRole(id) {
+    const token = localStorage.getItem('authToken');
+    try {
+      const response = await axios.get(`${AppConstants.ROLE_GET}/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching role:', error);
+      throw error;
+    }
+  }
+
+  async updateRole(id, roleData) {
+    const token = localStorage.getItem('authToken');
+    return axios.put(`${AppConstants.ROLE_UPDATE}/${id}`, roleData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+  }
+
+  async deleteRole(id) {
+    const token = localStorage.getItem('authToken');
+    return axios.delete(`${AppConstants.ROLE_DELETE}/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+  }
+
+  async permissions() {
+    const token = localStorage.getItem('authToken');
+    const response = await axios.get(AppConstants.PERMISSIONS_LIST, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  }
 }
 
 export default new AuthService();
