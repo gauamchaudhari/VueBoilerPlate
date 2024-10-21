@@ -8,6 +8,8 @@ import UserCreate from '@/components/users/UserCreate.vue';
 import UserEdit from '@/components/users/UserEdit.vue';
 
 import RolesList from '@/components/roles/RolesList.vue';
+import RoleEdit from '@/components/roles/RoleEdit.vue';
+
 import PermissionsList from '@/components/permissions/PermissionsList.vue';
 
 const routes = [
@@ -50,6 +52,12 @@ const routes = [
         path:'/roles',
         name: 'RolesList',
         component: RolesList
+      },
+      {
+        path:'/role/:id',
+        name: 'RoleEdit',
+        component: RoleEdit,
+        props: true
       },
       {
         path: '/permissions',
