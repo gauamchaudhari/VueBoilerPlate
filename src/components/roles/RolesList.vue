@@ -149,12 +149,13 @@ const showConfirmationDialog = async (roleId) => {
   const isConfirmed = await sweetAlert({
     title: "Are you sure?",
     text: "This action cannot be undone.",
-    icon: "info",
+    icon: "warning",
     confirmButtonText: "Yes, delete it!",
     cancelButtonText: "No, cancel!",
   });
+
   if (isConfirmed) {
-    deleteRole(roleId);
+    deleteRole(roleId); // Replace this with your delete logic
   }
 };
 

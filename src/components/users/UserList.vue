@@ -73,7 +73,7 @@
 import { onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
-import { showAlert as showSweetAlert } from "@/plugins/sweetalert2-config";
+import { sweetAlert } from "../utils/sweetAlert";
 import AuthService from "@/services/authService";
 import $ from "jquery";
 import "datatables.net";
@@ -81,28 +81,16 @@ import "datatables.net";
 const toast = useToast();
 const router = useRouter();
 const showConfirmationDialog = async (userId) => {
-    console.log("showConfirmationDialog called with userId:", userId);
-    try {
-        const result = await showSweetAlert({
-            title: 'Are you sure?',
-            text: "You won't be able to delete this!",
-            icon: 'warning', // Ensure this is a valid icon
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-        });
-
-        console.log("SweetAlert result:", result);
-
-        if (result.value) {
-            console.log("User confirmed deletion");
-            deleteUser(userId);
-        }
-    } catch (error) {
-        toast.error("Error showing confirmation dialog.");
-    }
+  const isConfirmed = await sweetAlert({
+    title: "Are you sure?",
+    text: "This action cannot be undone.",
+    icon: "warning",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel!",
+  });
+  if (isConfirmed) {
+    deleteUser(userId);
+  }
 };
 
 const deleteUser = async (userId) => {
