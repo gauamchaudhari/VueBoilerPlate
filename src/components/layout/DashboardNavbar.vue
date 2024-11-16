@@ -79,10 +79,10 @@ const toggleSidebar = () => {
   margin-left: 270px;
 }
 .bg-custom {
-  background-color: #11bee1;
+  background-color: #010c0e;
 }
 .menu-item:hover {
-  background-color: #248be5;
+  background-color: #010c0e;
   color: white;
   border-radius: 4px;
   cursor: pointer;
