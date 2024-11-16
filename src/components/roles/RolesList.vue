@@ -14,7 +14,7 @@
                   <i class="fa-solid fa-user"></i> Roles Management
                 </h3>
                 <div class="d-flex justify-content-end">
-                  <button class="btn btn-primary">
+                  <button class="btn btn-primary" @click="navigateToCreate">
                     <i class="fa fa-plus"></i> Create!
                   </button>
                 </div>
@@ -56,7 +56,7 @@
 import { onMounted, onBeforeUnmount } from "vue";
 import { useToast } from "vue-toastification";
 import AuthService from "@/services/authService";
-import { showAlert as showSweetAlert } from "@/plugins/sweetalert2-config";
+import { sweetAlert } from "../utils/sweetAlert";
 import $ from "jquery";
 import "datatables.net";
 import { useRouter } from "vue-router";
@@ -76,7 +76,7 @@ const initDataTable = (data) => {
         {
           data: null,
           defaultContent:
-            '<div class="icon-container"><i class="fa-solid fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash icon-delete"></i></div>',
+            '<div class="icon-container"><i class="fa-solid fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash icon-delete"></i> <i class="fas fa-user-tag icon-role-permission"></i></div>',
           orderable: true,
         },
       ],
@@ -96,6 +96,15 @@ const initDataTable = (data) => {
       const rowData = table.row($(event.currentTarget).parents("tr")).data();
       if (rowData) {
         showConfirmationDialog(rowData.id);
+      } else {
+        toast.error("No row data found for delete action.");
+      }
+    });
+
+    $("#rolesTable tbody").on("click", ".icon-role-permission", (event) => {
+      const rowData = table.row($(event.currentTarget).parents("tr")).data();
+      if (rowData) {
+        rolePermission(rowData.id);
       } else {
         toast.error("No row data found for delete action.");
       }
@@ -137,23 +146,15 @@ const editRole = (roleId) => {
 };
 
 const showConfirmationDialog = async (roleId) => {
-  try {
-    const result = await showSweetAlert({
-      title: "Are you sure?",
-      text: "You won't be able to delete this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, cancel!",
-    });
-
-    if (result.value) {
-      deleteRole(roleId);
-    }
-  } catch (error) {
-    toast.error("Error showing confirmation dialog.");
+  const isConfirmed = await sweetAlert({
+    title: "Are you sure?",
+    text: "This action cannot be undone.",
+    icon: "info",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel!",
+  });
+  if (isConfirmed) {
+    deleteRole(roleId);
   }
 };
 
@@ -166,6 +167,18 @@ const deleteRole = async (roleId) => {
     toast.error("Error deleting role.");
   }
 };
+
+const rolePermission = (roleId) => {
+  try {
+    router.push({ name: "RolePermission", params: { id: roleId } });
+  } catch (error) {
+    toast.error("Navigation error on RolePermission.");
+  }
+};
+
+const navigateToCreate = () => {
+  router.push({ name: "rolecreate" });
+};
 </script>
 <style>
 .icon-container {
@@ -176,6 +189,7 @@ const deleteRole = async (roleId) => {
 .icon-edit,
 .icon-delete {
   font-size: 20px;
+  cursor: pointer;
 }
 
 .icon-edit {

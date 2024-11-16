@@ -1,5 +1,10 @@
 <template>
-  <div :class="['bg-custom text-white vh-100', { 'd-none': !isVisible, 'collapsed': isCollapsed }]">
+  <div
+    :class="[
+      'bg-custom text-white vh-100',
+      { 'd-none': !isVisible, collapsed: isCollapsed },
+    ]"
+  >
     <div class="sidebar-content p-3">
       <h4>
         <i class="fa-solid fa-building-columns"></i>&nbsp;
@@ -68,7 +73,7 @@
                   to="/roles"
                   exact-active-class="active"
                 >
-                <i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
+                  <i class="fa-solid fa-registered"></i>&nbsp;&nbsp;
                   <span v-if="!isCollapsed">Roles</span>
                 </router-link>
               </li>
@@ -78,7 +83,7 @@
                   to="/permissions"
                   exact-active-class="active"
                 >
-                <i class="fa-brands fa-product-hunt"></i>&nbsp;&nbsp;
+                  <i class="fa-brands fa-product-hunt"></i>&nbsp;&nbsp;
                   <span v-if="!isCollapsed">Permissions</span>
                 </router-link>
               </li>
@@ -127,7 +132,7 @@
 </template>
 
 <script>
-import eventBus from '@/plugins/eventBus';
+import eventBus from "@/plugins/eventBus";
 
 export default {
   name: "DashboardSidebar",
@@ -152,10 +157,10 @@ export default {
     },
   },
   mounted() {
-    eventBus.on('toggle-sidebar', this.toggleSidebar);
+    eventBus.on("toggle-sidebar", this.toggleSidebar);
   },
   beforeUnmount() {
-    eventBus.off('toggle-sidebar', this.toggleSidebar);
+    eventBus.off("toggle-sidebar", this.toggleSidebar);
   },
 };
 </script>
@@ -163,7 +168,7 @@ export default {
 <style scoped>
 /* Dark blue background for sidebar */
 .bg-custom {
-  background-color: #11bee1;
+  background-color: #010c0e;
   position: fixed;
   top: 0;
   left: 0;

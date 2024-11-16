@@ -80,6 +80,15 @@ class AuthService {
     }
   }
 
+  async createRole(roleData) {
+    const token = localStorage.getItem('authToken');
+    return axios.post(AppConstants.ROLE_CREATE,roleData,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+  }
+
   async updateRole(id, roleData) {
     const token = localStorage.getItem('authToken');
     return axios.put(`${AppConstants.ROLE_UPDATE}/${id}`, roleData, {

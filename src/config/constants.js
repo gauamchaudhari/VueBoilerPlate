@@ -8,6 +8,7 @@ class AppConstants {
     static USER_DELETE = 'http://localhost:3001/api/users';
     
     static ROLES_LIST = 'http://localhost:3001/api/roles';
+    static ROLE_CREATE = 'http://localhost:3001/api/roles';
     static ROLE_GET = 'http://localhost:3001/api/role';
     static ROLE_UPDATE = 'http://localhost:3001/api/roles';
     static ROLE_DELETE = 'http://localhost:3001/api/roles';
