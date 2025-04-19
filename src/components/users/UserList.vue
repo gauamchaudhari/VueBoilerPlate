@@ -29,11 +29,10 @@
                     <div class="col-sm-12">
                       <table
                         id="usersTable"
-                        class="table data-table table-striped table-bordered table-hover table-order-column"
+                        class="table data-table table-bordered table-hover table-order-column"
                       >
                         <thead>
                           <tr>
-                            <th>ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
@@ -46,7 +45,6 @@
                         <tbody></tbody>
                         <tfoot>
                           <tr>
-                            <th>ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
@@ -73,43 +71,33 @@
 import { onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
-import { showAlert as showSweetAlert } from "@/plugins/sweetalert2-config";
+import { sweetAlert } from "../utils/sweetAlert";
 import AuthService from "@/services/authService";
 import $ from "jquery";
 import "datatables.net";
 
 const toast = useToast();
 const router = useRouter();
+
+// Existing methods for user management
 const showConfirmationDialog = async (userId) => {
-    console.log("showConfirmationDialog called with userId:", userId);
-    try {
-        const result = await showSweetAlert({
-            title: 'Are you sure?',
-            text: "You won't be able to delete this!",
-            icon: 'warning', // Ensure this is a valid icon
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-        });
-
-        console.log("SweetAlert result:", result);
-
-        if (result.value) {
-            console.log("User confirmed deletion");
-            deleteUser(userId);
-        }
-    } catch (error) {
-        toast.error("Error showing confirmation dialog.");
-    }
+  const isConfirmed = await sweetAlert({
+    title: "Are you sure?",
+    text: "This action cannot be undone.",
+    icon: "warning",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel!",
+  });
+  if (isConfirmed) {
+    deleteUser(userId);
+  }
 };
 
 const deleteUser = async (userId) => {
   try {
-    await AuthService.deleteUser(userId); // Make sure you have a method to handle deletion
+    await AuthService.deleteUser(userId);
     toast.success("User deleted successfully.");
-    fetchUsers(); // Refresh the list
+    fetchUsers();
   } catch (error) {
     toast.error("Error deleting user.");
   }
@@ -119,7 +107,6 @@ const fetchUsers = async () => {
   try {
     const response = await AuthService.users();
     const data = await response.data;
-    // Ensure the DataTable is destroyed before initializing a new one
     if ($.fn.dataTable.isDataTable("#usersTable")) {
       $("#usersTable").DataTable().clear().destroy();
       $("#usersTable").empty();
@@ -136,7 +123,6 @@ const initDataTable = (data) => {
       data: data,
       order: [[0, "desc"]],
       columns: [
-        { data: "id" },
         { data: "first_name" },
         { data: "last_name" },
         { data: "email" },
@@ -146,7 +132,7 @@ const initDataTable = (data) => {
         {
           data: null,
           defaultContent:
-            '<div class="icon-container"><i class="fa-solid fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash icon-delete"></i></div>',
+            '<div class="icon-container"><i class="fa-solid fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash icon-delete"></i> <i class="fa-solid fa-upload upload-btn"></i></div>',
           orderable: true,
         },
       ],
@@ -157,12 +143,13 @@ const initDataTable = (data) => {
     $("#usersTable tbody").on("click", ".icon-edit", (event) => {
       const rowData = table.row($(event.currentTarget).parents("tr")).data();
       if (rowData) {
-        editUser(rowData.id); // Call the method in the Vue instance
+        editUser(rowData.id);
       } else {
         toast.error("No row data found for edit action.");
       }
     });
-    //Handle delete button click
+
+    // Handle delete button click
     $("#usersTable tbody").on("click", ".icon-delete", (event) => {
       const rowData = table.row($(event.currentTarget).parents("tr")).data();
       if (rowData) {
@@ -171,12 +158,20 @@ const initDataTable = (data) => {
         toast.error("No row data found for delete action.");
       }
     });
+
+    $("#usersTable tbody").on("click", ".upload-btn", (event) => {
+      const rowData = table.row($(event.currentTarget).parents("tr")).data();
+      if (rowData) {
+        navigateToUpload(rowData.id);
+      } else {
+        toast.error("No row data found for edit action.");
+      }
+    });
   });
 };
 
 const editUser = (userId) => {
   try {
-    // Navigate to the edit page and pass the user ID as a param
     router.push({
       name: "UserEdit",
       params: { id: userId },
@@ -199,21 +194,15 @@ onBeforeUnmount(() => {
 const navigateToCreate = () => {
   router.push({ name: "UserCreate" });
 };
-</script>
 
-<style>
-.icon-container {
-  display: flex;
-  gap: 30px;
-}
-.icon-edit,
-.icon-delete {
-  font-size: 20px;
-}
-.icon-edit {
-  color: #007bff;
-}
-.icon-delete {
-  color: #dc3545;
-}
-</style>
+const navigateToUpload = (userId) => {
+  try {
+    router.push({
+      name: "UploadFiles",
+      params: { id: userId },
+    });
+  } catch (error) {
+    toast.error("Error fetching user details.");
+  }
+};
+</script>

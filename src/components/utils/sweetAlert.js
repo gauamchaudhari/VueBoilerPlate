@@ -5,14 +5,14 @@ export const sweetAlert = async (options) => {
         const result = await showSweetAlert({
             title: options.title || "Are you sure?",
             text: options.text || "You won't be able to revert this!",
-            icon: options.icon || "info",
+            icon: options.icon || "warning",
             showCancelButton: true,
             confirmButtonColor: options.confirmButtonColor || "#3085d6",
             cancelButtonColor: options.cancelButtonColor || "#d33",
             confirmButtonText: options.confirmButtonText || "Yes, delete it!",
             cancelButtonText: options.cancelButtonText || "No, cancel!",
         });
-        return result.isConfirmed;
+       return result.value;        
     } catch (error) {
         console.error("Error showing confirmation dialog", error);
         return false;
