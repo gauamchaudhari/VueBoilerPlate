@@ -1,19 +1,14 @@
 <template>
-  <div
-    :class="[
-      'bg-custom text-white vh-100',
-      { 'd-none': !isVisible, collapsed: isCollapsed },
-    ]"
-  >
+  <div :class="['bg-custom vh-100', { 'd-none': !isVisible, collapsed: isCollapsed }]">
     <div class="sidebar-content p-3">
       <h4>
         <i class="fa-solid fa-building-columns"></i>&nbsp;
-        <span v-if="!isCollapsed">Vue3 Admin</span>
+        <span v-if="!isCollapsed">SparkView</span>
       </h4>
       <hr />
 
       <!-- General Section -->
-      <h6 class="text-uppercase text-white fw-bold">General</h6>
+      <h6 class="text-uppercase fw-bold">General</h6>
       <ul class="nav flex-column mb-3">
         <li class="nav-item">
           <router-link
@@ -34,12 +29,12 @@
       </ul>
 
       <!-- System Section -->
-      <h6 class="text-uppercase text-white fw-bold">System</h6>
+      <h6 class="text-uppercase fw-bold">System</h6>
       <ul class="nav flex-column">
         <!-- Dropdown for Access with border when active -->
         <li class="nav-item">
           <a
-            class="nav-link text-white d-flex justify-content-between fw-bold menu-item"
+            class="nav-link d-flex justify-content-between text-white fw-bold menu-item"
             data-bs-toggle="collapse"
             href="#accessMenu"
             role="button"
@@ -59,7 +54,7 @@
             <ul class="nav flex-column ms-3">
               <li class="nav-item">
                 <router-link
-                  class="nav-link text-white fw-bold menu-item"
+                  class="nav-link fw-bold menu-item"
                   to="/users"
                   exact-active-class="active"
                 >
@@ -69,7 +64,7 @@
               </li>
               <li class="nav-item">
                 <router-link
-                  class="nav-link text-white fw-bold menu-item"
+                  class="nav-link fw-bold menu-item"
                   to="/roles"
                   exact-active-class="active"
                 >
@@ -79,7 +74,7 @@
               </li>
               <li class="nav-item">
                 <router-link
-                  class="nav-link text-white fw-bold menu-item"
+                  class="nav-link fw-bold menu-item"
                   to="/permissions"
                   exact-active-class="active"
                 >
@@ -154,6 +149,7 @@ export default {
     },
     toggleSidebar() {
       this.isCollapsed = !this.isCollapsed; // Toggle collapse state
+      this.$emit("sidebar-toggled", this.isCollapsed);
     },
   },
   mounted() {
@@ -168,7 +164,7 @@ export default {
 <style scoped>
 /* Dark blue background for sidebar */
 .bg-custom {
-  background-color: #010c0e;
+  background-color: #41904d;
   position: fixed;
   top: 0;
   left: 0;
@@ -188,12 +184,15 @@ export default {
 
 /* Active link style */
 .active {
-  background-color: #248be5f9;
-  color: white;
+  background-color: #fff; /* Darker purple */
+  color: rgb(17, 1, 1);
   border-radius: 4px;
   font-weight: bold;
 }
-
+.navbar {
+  background-color: #fff; /* Purple */
+  color: #fff;
+}
 /* Section headings style */
 h6 {
   margin-top: 20px;
@@ -205,6 +204,7 @@ h6 {
 /* Style for collapsed submenus */
 .collapse .nav-link {
   padding-left: 1.5rem;
+  color: black;
 }
 
 /* Add border and highlight to Access when active */
@@ -216,8 +216,8 @@ h6 {
 
 /* Hover effect for menu items */
 .menu-item:hover {
-  background-color: #248be5;
-  color: white;
+  background-color: #010008;
+  color: #fff;
   border-radius: 4px;
   cursor: pointer;
 }

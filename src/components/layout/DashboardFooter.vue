@@ -1,5 +1,5 @@
 <template>
-  <footer class="text-center py-3 fixed-bottom text-white fw-bold">
+  <footer class="text-center py-3 fixed-bottom fw-bold">
     <p class="mb-0">© 2024 Vue3 Admin Panel. All rights reserved.</p>
   </footer>
 </template>
@@ -19,7 +19,7 @@ export default {
   top: 94.5%;
   width: 100%;
   z-index: 1000; /* Ensure it stays on top of other content */
-  background-color: #010c0e;
+  background-color: #5dea72; /* Purple */
 }
 
 /* Optional: Add padding to the body to avoid overlap */

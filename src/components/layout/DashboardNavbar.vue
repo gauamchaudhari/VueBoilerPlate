@@ -8,7 +8,7 @@
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a
-            class="nav-link active text-white fw-bold"
+            class="nav-link active test-blue fw-bold"
             aria-current="page"
             href="#"
             @click="toggleSidebar"
@@ -17,12 +17,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white fw-bold" href="#">
+          <a class="nav-link test-blue fw-bold" href="#">
             <i class="fa-solid fa-user"></i> All Users
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white fw-bold" href="#">Pricing</a>
+          <a class="nav-link test-blue fw-bold" href="#">Pricing</a>
         </li>
       </ul>
 
@@ -30,7 +30,7 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
           <a
-            class="nav-link dropdown-toggle text-white fw-bold"
+            class="nav-link dropdown-toggle test-blue fw-bold"
             href="#"
             id="navbarDropdownMenuAvatar"
             role="button"
@@ -67,10 +67,12 @@
 
 <script setup>
 import { logoutMixin } from "@/mixins/logoutMixin";
-
+import { defineEmits } from "vue";
+// Define the emit event
+const emit = defineEmits(["toggle-sidebar"]);
 const { logout } = logoutMixin.setup();
 const toggleSidebar = () => {
-  this.$emit("toggle-sidebar");
+  emit("toggle-sidebar");
 };
 </script>
 
@@ -79,11 +81,12 @@ const toggleSidebar = () => {
   margin-left: 270px;
 }
 .bg-custom {
-  background-color: #010c0e;
+  background-color: #5dea72;
+  color: #9c9fa6;
 }
 .menu-item:hover {
   background-color: #010c0e;
-  color: white;
+  color: 9c9fa6;
   border-radius: 4px;
   cursor: pointer;
 }

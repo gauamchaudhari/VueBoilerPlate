@@ -14,6 +14,8 @@ import RolePermission from '@/components/roles/RolePermission.vue';
 
 import PermissionsList from '@/components/permissions/PermissionsList.vue';
 
+import UploadFiles from "@/components/users/UploadFiles.vue";
+
 const routes = [
   {
     path: '/',
@@ -49,6 +51,11 @@ const routes = [
         name: 'UserEdit',
         component: UserEdit,
         props: true
+      },
+      {
+        path: "/users/:id/upload",
+        name: "UploadFiles",
+        component: UploadFiles,
       },
       {
         path:'/roles',

@@ -54,6 +54,25 @@ class AuthService {
     });
   }
 
+  async uploadFiles(formData) {
+    const token = localStorage.getItem('authToken');
+    return axios.post(`${AppConstants.USER_UPLOAD}`, formData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+  }
+
+  async getUserFiles(id) {
+    const token = localStorage.getItem('authToken');
+    return axios.get(`${AppConstants.USER_GET_FILES}/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+  }
+
+
 
   async roles() {
     const token = localStorage.getItem('authToken');
@@ -82,7 +101,7 @@ class AuthService {
 
   async createRole(roleData) {
     const token = localStorage.getItem('authToken');
-    return axios.post(AppConstants.ROLE_CREATE,roleData,{
+    return axios.post(AppConstants.ROLE_CREATE, roleData, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
