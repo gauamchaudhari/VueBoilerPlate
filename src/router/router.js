@@ -15,6 +15,8 @@ import RolePermission from '@/components/roles/RolePermission.vue';
 import PermissionsList from '@/components/permissions/PermissionsList.vue';
 
 import UploadFiles from "@/components/users/UploadFiles.vue";
+import FaqManagement from '@/components/faq/FaqManagement.vue';
+import FaqCreate from '@/components/faq/FaqCreate.vue';
 
 const routes = [
   {
@@ -47,7 +49,7 @@ const routes = [
         component: UserCreate
       },
       {
-        path:'/user/:id',
+        path: '/user/:id',
         name: 'UserEdit',
         component: UserEdit,
         props: true
@@ -58,7 +60,7 @@ const routes = [
         component: UploadFiles,
       },
       {
-        path:'/roles',
+        path: '/roles',
         name: 'RolesList',
         component: RolesList
       },
@@ -68,7 +70,7 @@ const routes = [
         component: RoleCreate
       },
       {
-        path:'/role/:id',
+        path: '/role/:id',
         name: 'RoleEdit',
         component: RoleEdit,
         props: true
@@ -84,11 +86,22 @@ const routes = [
         path: '/permissions',
         name: 'PermissionsList',
         component: PermissionsList
+      },
+      {
+        path: '/faq',
+        name: 'FaqManagement',
+        component: FaqManagement
+      },
+      {
+        path: '/faq/create',
+        name: 'FaqCreate',
+        component: FaqCreate
       }
-    ]
+    ],
+
   },
 
-  // Add more routes here if needed
+
 ];
 
 const router = createRouter({
@@ -98,7 +111,7 @@ const router = createRouter({
 
 // Navigation guard to check authentication
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/', '/login','/register'];
+  const publicPages = ['/', '/login', '/register'];
   const authRequired = !publicPages.includes(to.path);
   const token = localStorage.getItem('authToken');
   if (authRequired && !token) {

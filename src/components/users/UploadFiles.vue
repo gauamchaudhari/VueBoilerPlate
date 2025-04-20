@@ -51,7 +51,6 @@
       </div>
     </div>
     <!-- Image Preview Modal -->
-    <!-- Image Preview Modal with Arrows -->
     <div
       class="modal fade"
       id="imagePreviewModal"

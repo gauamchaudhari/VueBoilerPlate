@@ -14,6 +14,8 @@ class AppConstants {
     static ROLE_GET = 'http://localhost:3001/api/role';
     static ROLE_UPDATE = 'http://localhost:3001/api/roles';
     static ROLE_DELETE = 'http://localhost:3001/api/roles';
+    static ROLE_PERMISSION = 'http://localhost:3001/api/assing-role-permission';
+    static ROLE_PERMISSION_GET = 'http://localhost:3001/api/role-permissions';
 
     static PERMISSIONS_LIST = 'http://localhost:3001/api/permissions';
   }

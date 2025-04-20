@@ -126,6 +126,16 @@ class AuthService {
     });
   }
 
+  async assignRolePermissions(formData) {
+    console.log('formData', formData);
+    const token = localStorage.getItem('authToken');
+    return axios.post(`${AppConstants.ROLE_PERMISSION}`, formData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+  }
+
   async permissions() {
     const token = localStorage.getItem('authToken');
     const response = await axios.get(AppConstants.PERMISSIONS_LIST, {

@@ -86,27 +86,20 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white fw-bold menu-item" href="#">
-            <i class="fa-solid fa-file"></i>&nbsp;&nbsp;
-            <span v-if="!isCollapsed">Pages Management</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white fw-bold menu-item" href="#">
+          <router-link
+            class="nav-link text-white fw-bold menu-item"
+            to="/faq"
+            exact-active-class="active"
+          >
             <i class="fa-solid fa-circle-question"></i>&nbsp;&nbsp;
             <span v-if="!isCollapsed">Faq Management</span>
-          </a>
+          </router-link>
         </li>
+
         <li class="nav-item">
           <a class="nav-link text-white fw-bold menu-item" href="#">
             <i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;
             <span v-if="!isCollapsed">Email Templates</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white fw-bold menu-item" href="#">
-            <i class="fa-solid fa-blog"></i>&nbsp;&nbsp;
-            <span v-if="!isCollapsed">Blog Management</span>
           </a>
         </li>
         <li class="nav-item">
@@ -116,7 +109,11 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white fw-bold menu-item" href="#">
+          <a
+            class="nav-link text-white fw-bold menu-item"
+            href="#"
+            @click="handleLogout()"
+          >
             <i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;
             <span v-if="!isCollapsed">Logout</span>
           </a>
@@ -128,8 +125,10 @@
 
 <script>
 import eventBus from "@/plugins/eventBus";
+import { logoutMixin } from "@/mixins/logoutMixin";
 
 export default {
+  mixins: [logoutMixin],
   name: "DashboardSidebar",
   data() {
     return {
@@ -137,6 +136,7 @@ export default {
       isCollapsed: false, // To track if sidebar is collapsed
     };
   },
+
   props: {
     isVisible: {
       type: Boolean,
@@ -150,6 +150,11 @@ export default {
     toggleSidebar() {
       this.isCollapsed = !this.isCollapsed; // Toggle collapse state
       this.$emit("sidebar-toggled", this.isCollapsed);
+    },
+    handleLogout() {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("userEmail");
+      this.$router.push({ name: "Login" });
     },
   },
   mounted() {
@@ -179,20 +184,25 @@ export default {
 
 /* Sidebar collapsed style */
 .collapsed {
-  width: 80px; /* Adjust width for collapsed state */
+  width: 80px;
+  /* Adjust width for collapsed state */
 }
 
 /* Active link style */
 .active {
-  background-color: #fff; /* Darker purple */
-  color: rgb(17, 1, 1);
+  background-color: #010008;
+  /* Darker purple */
+  color: #fff;
   border-radius: 4px;
   font-weight: bold;
 }
+
 .navbar {
-  background-color: #fff; /* Purple */
+  background-color: #fff;
+  /* Purple */
   color: #fff;
 }
+
 /* Section headings style */
 h6 {
   margin-top: 20px;
@@ -204,7 +214,7 @@ h6 {
 /* Style for collapsed submenus */
 .collapse .nav-link {
   padding-left: 1.5rem;
-  color: black;
+  color: #fff;
 }
 
 /* Add border and highlight to Access when active */

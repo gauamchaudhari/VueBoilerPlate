@@ -35,7 +35,7 @@
                   <select
                     v-model="permissionMode"
                     @change="handlePermissionMode"
-                    class="form-control w-75"
+                    class="form-control w-75 permission-select"
                   >
                     <option value="all">Select All</option>
                     <option value="custom">Custom</option>
@@ -108,21 +108,37 @@ const role = ref({ name: "" });
 const permissionsOptions = ref([]);
 const selectedPermissions = ref([]);
 const permissionMode = ref("custom");
+const assignedPermissions = ref([]);
 
 onMounted(async () => {
-  try {
-    const roleId = route.params.id;
-    const response = await AuthService.getRole(roleId);
-    role.value = response.data;
+  const roleId = route.params.id;
 
-    const permissionsData = await AuthService.permissions();
-    permissionsOptions.value = permissionsData.data.map((permission) => ({
-      value: permission.id,
-      label: permission.name,
+  try {
+    const roleResponse = await AuthService.getRole(roleId);
+    role.value = roleResponse.data;
+
+    const permissionsResponse = await AuthService.permissions();
+    permissionsOptions.value = permissionsResponse.data.map((p) => ({
+      value: p.id,
+      label: p.name,
     }));
+
+    // Load selected permission from localStorage
+    const stored = localStorage.getItem(`assigned_permissions_role_${roleId}`);
+
+    if (stored) {
+      try {
+        // Extract only the permission IDs (assuming stored is an array of objects)
+        const permissions = JSON.parse(stored);
+        selectedPermissions.value = permissions.map((permission) => permission.id);
+        permissionMode.value = "custom";
+      } catch (parseError) {
+        console.error("Error parsing selectedPermissions:", parseError);
+        selectedPermissions.value = [];
+      }
+    }
   } catch (error) {
-    console.error("Error fetching role details:", error);
-    toast.error("Error fetching role details.");
+    toast.error("Error loading role or permissions.");
   }
 });
 
@@ -135,10 +151,46 @@ const handlePermissionMode = () => {
 };
 
 const handleSubmit = () => {
-  const roleId = route.params.id;
-  const assignedPermissions = selectedPermissions.value;
-  console.log("Role ID:", roleId);
-  console.log("Selected Permission IDs:", assignedPermissions);
+  if (selectedPermissions.value.length === 0) {
+    toast.error("No permissions selected.");
+    return;
+  }
+
+  const formData = {
+    role_id: route.params.id,
+    permissions_id: selectedPermissions.value,
+  };
+
+  AuthService.assignRolePermissions(formData)
+    .then((response) => {
+      console.log("Response from server:", response);
+
+      // Adjusting to the correct response structure
+      if (
+        response.data &&
+        response.data.data &&
+        response.data.data.assigned_permissions
+      ) {
+        const assignedIds = response.data.data.assigned_permissions;
+        assignedPermissions.value = assignedIds;
+
+        // Save to localStorage for persistence
+        localStorage.setItem(
+          `assigned_permissions_role_${formData.role_id}`,
+          JSON.stringify(assignedIds)
+        );
+
+        toast.success("Permissions assigned successfully.");
+        router.push({ name: "RolePermission" });
+      } else {
+        console.error("Invalid response structure:", response);
+        toast.error("Error: Invalid response from server.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error assigning permissions:", error);
+      toast.error("Error assigning permissions.");
+    });
 };
 
 const closeButton = () => {
@@ -149,6 +201,16 @@ const closeButton = () => {
 /* Reduce space between checkbox and label */
 .permission-label {
   margin-left: 5px; /* Adjust as necessary */
+}
+
+select.permission-select {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #aec4b1;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #495057;
 }
 
 /* Remove border and scroll from dropdown */

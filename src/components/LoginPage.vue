@@ -2,11 +2,13 @@
   <div class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo text-color">
-        <a href="#"><b>{{ $logoName }}</b></a>
+        <a href="#"
+          ><b>{{ $logoName }}</b></a
+        >
       </div>
       <div class="card">
         <div class="card-body login-card-body">
-          <p class="login-box-msg">Sign in to start your session</p>
+          <p class="login-box-msg fw-bold">Sign in</p>
 
           <!-- VeeValidate Form -->
           <VForm :validation-schema="validationSchema" @submit="handleLogin">
@@ -35,7 +37,7 @@
 
             <!-- Submit Button -->
             <div class="row">
-              <div class="col-4 offset-8">
+              <div class="col-4 offset-4">
                 <button type="submit" class="btn btn-primary btn-block">Sign In</button>
               </div>
             </div>
@@ -45,7 +47,9 @@
             <a href="#">I forgot my password</a>
           </p>
           <p class="mb-0">
-            <router-link to="/register" class="text-center">Register a new membership</router-link>
+            <router-link to="/register" class="text-center"
+              >Register a new membership</router-link
+            >
           </p>
         </div>
       </div>
@@ -56,8 +60,8 @@
 import "@/assets/css/login.css";
 import { Field, Form as VForm, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-import AuthService from '@/services/authService';
-import { useRouter } from 'vue-router';
+import AuthService from "@/services/authService";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 
@@ -73,10 +77,10 @@ const validationSchema = yup.object({
 // Handle form submission
 const handleLogin = async (values) => {
   try {
-    const response = await AuthService.login(values.email, values.password);    
+    const response = await AuthService.login(values.email, values.password);
     if (response.token) {
-      localStorage.setItem('authToken', response.token);
-      localStorage.setItem('userEmail', values.email);
+      localStorage.setItem("authToken", response.token);
+      localStorage.setItem("userEmail", values.email);
       router.push("/dashboard");
     } else {
       console.error("Login failed:", response.message);
