@@ -10,7 +10,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
-                  <i class="fa-solid fa-user"></i> Users Management
+                  <i class="fa-solid fa-user"></i> Users Management Modules
                 </h3>
                 <div class="d-flex justify-content-end">
                   <button class="btn btn-primary" @click="navigateToCreate">
