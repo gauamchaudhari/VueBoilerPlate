@@ -31,4 +31,14 @@ jobs:
         run: |
           echo "$EC2_PRIVATE_KEY" > private-key.pem
           chmod 600 private-key.pem
+          ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
+          
+          # Debugging: Verify the private key and known hosts
+          cat private-key.pem
+          cat ~/.ssh/known_hosts
+          
+          # Deploy the files using SCP
           scp -o StrictHostKeyChecking=no -i private-key.pem -r dist/* $EC2_USER@$EC2_HOST:/var/www/html
+
+          # Additional step: Restart the web server if required (e.g., Nginx)
+          ssh -i private-key.pem $EC2_USER@$EC2_HOST 'sudo systemctl restart nginx'
