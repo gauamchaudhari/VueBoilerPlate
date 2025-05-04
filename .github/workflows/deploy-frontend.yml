@@ -1,4 +1,4 @@
-name: Deploy Vue Frontend
+name: CI/CD for Vue.js Frontend
 
 on:
   push:
@@ -8,21 +8,27 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.USER }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: ${{ secrets.EC2_PORT }}
-        script: |
-          cd /home/ec2-user/frontend
-          git pull origin main
-          npm install
-          npm run build
-          pm2 serve dist --name frontend --spa --port 3000
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.USER }}
+          EC2_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          echo "$EC2_PRIVATE_KEY" > private-key.pem
+          chmod 600 private-key.pem
+          scp -o StrictHostKeyChecking=no -i private-key.pem -r dist/* $EC2_USER@$EC2_HOST:/var/www/html
