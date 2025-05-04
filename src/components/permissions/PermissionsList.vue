@@ -29,7 +29,7 @@
                     <div class="col-sm-12">
                       <table
                         id="permissionsTable"
-                        class="table data-table table-striped table-bordered table-hover table-order-column"
+                        class="table data-table table-dark table-striped table-bordered table-hover table-order-column"
                       >
                         <thead>
                           <tr>
@@ -82,7 +82,7 @@ const initDataTable = (data) => {
         {
           data: null,
           defaultContent:
-            '<div class="icon-container"><i class="fa-solid fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash icon-delete"></i></div>',
+            '<div class="icon-container"><i class="fa-solid text-white fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash text-white icon-delete"></i></div>',
           orderable: true,
         },
       ],

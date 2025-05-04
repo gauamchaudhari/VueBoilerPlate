@@ -29,7 +29,7 @@
                     <div class="col-sm-12">
                       <table
                         id="rolesTable"
-                        class="table data-table table-striped table-bordered table-hover table-order-column"
+                        class="table data-table table-dark table-striped table-bordered table-hover table-order-column"
                       >
                         <thead>
                           <tr>
@@ -76,7 +76,7 @@ const initDataTable = (data) => {
         {
           data: null,
           defaultContent:
-            '<div class="icon-container"><i class="fa-solid fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash icon-delete"></i> <i class="fas fa-user-tag icon-role-permission"></i></div>',
+            '<div class="icon-container"><i class="fa-solid fa-pen-to-square text-white icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash text-white icon-delete"></i> <i class="fas fa-user-tag text-white icon-role-permission"></i></div>',
           orderable: true,
         },
       ],

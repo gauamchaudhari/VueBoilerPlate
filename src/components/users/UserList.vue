@@ -29,7 +29,7 @@
                     <div class="col-sm-12">
                       <table
                         id="usersTable"
-                        class="table data-table table-bordered table-hover table-order-column"
+                        class="table data-table table-dark table-bordered table-hover table-striped"
                       >
                         <thead>
                           <tr>
@@ -132,7 +132,7 @@ const initDataTable = (data) => {
         {
           data: null,
           defaultContent:
-            '<div class="icon-container"><i class="fa-solid fa-pen-to-square icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash icon-delete"></i> <i class="fa-solid fa-upload upload-btn"></i></div>',
+            '<div class="icon-container"><i class="fa-solid fa-pen-to-square text-white icon-edit"></i> <i class="fa-sharp-duotone fa-solid fa-trash text-white icon-delete"></i> <i class="fa-solid fa-upload text-white upload-btn"></i></div>',
           orderable: true,
         },
       ],
