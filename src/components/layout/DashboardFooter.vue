@@ -19,7 +19,7 @@ export default {
   top: 94.5%;
   width: 100%;
   z-index: 1000; /* Ensure it stays on top of other content */
-  background-color: #5dea72; /* Purple */
+  background-color: #fff; /* Purple */
 }
 
 /* Optional: Add padding to the body to avoid overlap */

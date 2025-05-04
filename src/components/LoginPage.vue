@@ -2,9 +2,44 @@
   <div class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo text-color">
-        <a href="#"
-          ><b>{{ $logoName }}</b></a
+        <svg
+          width="200"
+          height="60"
+          viewBox="0 0 200 60"
+          xmlns="http://www.w3.org/2000/svg"
         >
+          <defs>
+            <linearGradient id="sparkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color: #ff6a00; stop-opacity: 1" />
+              <stop offset="100%" style="stop-color: #ffcc00; stop-opacity: 1" />
+            </linearGradient>
+          </defs>
+          <text
+            x="10"
+            y="40"
+            font-family="Arial, Helvetica, sans-serif"
+            font-size="32"
+            font-weight="bold"
+            fill="url(#sparkGradient)"
+          >
+            Spark
+          </text>
+          <text
+            x="105"
+            y="40"
+            font-family="Arial, Helvetica, sans-serif"
+            font-size="32"
+            fill="#333"
+          >
+            View
+          </text>
+          <!-- Spark icon -->
+          <polygon
+            points="60,10 63,25 50,18 67,18 54,25"
+            fill="#ff6a00"
+            transform="rotate(15 60 18)"
+          />
+        </svg>
       </div>
       <div class="card">
         <div class="card-body login-card-body">

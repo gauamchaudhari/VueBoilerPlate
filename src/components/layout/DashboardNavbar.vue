@@ -8,7 +8,7 @@
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a
-            class="nav-link active test-blue fw-bold"
+            class="nav-link active text-blue fw-bold"
             aria-current="page"
             href="#"
             @click="toggleSidebar"
@@ -17,12 +17,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link test-blue fw-bold" href="#">
+          <a class="nav-link text-blue fw-bold" href="#">
             <i class="fa-solid fa-user"></i> All Users
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link test-blue fw-bold" href="#">Pricing</a>
+          <a class="nav-link text-blue fw-bold" href="#">Pricing</a>
         </li>
       </ul>
 
@@ -30,7 +30,7 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
           <a
-            class="nav-link dropdown-toggle test-blue fw-bold"
+            class="nav-link dropdown-toggle text-blue fw-bold"
             href="#"
             id="navbarDropdownMenuAvatar"
             role="button"
@@ -81,8 +81,8 @@ const toggleSidebar = () => {
   margin-left: 270px;
 }
 .bg-custom {
-  background-color: #5dea72;
-  color: #9c9fa6;
+  background-color: #fdfdfd;
+  color: #010c0e;
 }
 .menu-item:hover {
   background-color: #010c0e;
