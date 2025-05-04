@@ -31,6 +31,7 @@ jobs:
         run: |
           echo "$EC2_PRIVATE_KEY" > private-key.pem
           chmod 600 private-key.pem
+          mkdir -p ~/.ssh
           ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
           
           # Debugging: Verify the private key and known hosts
